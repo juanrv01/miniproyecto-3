@@ -1,0 +1,40 @@
+#oceanWoodTable {
+    -fx-background-image: url("battleship-ocean-water.png");
+    -fx-padding: 30px;
+    -fx-background-size: contain;
+    -fx-spacing: 30px;
+
+}
+
+#woodTable {
+    -fx-background-image: url("tablero.png");
+    -fx-padding: 60px;
+    -fx-spacing: 50px;
+    -fx-background-size: contain;
+}
+
+#machineBoardContainer {
+    -fx-background-image: url("squareMetalRadarScreen.jpg");
+    -fx-background-size: cover;
+    -fx-padding: 70px;
+}
+
+#radarContainer {
+    -fx-background-image: url("metal-pa.jpeg");
+    -fx-background-size: contain;
+}
+
+#oceanBackgrounsHolder {
+    -fx-background-image: url("battleship-ocean-water.png");
+    -fx-background-size: contain;
+    -fx-padding: 40px;
+    -fx-spacing: 60px;
+}
+
+#tableBoats {
+    -fx-background-image: url("leatherTableTexture.png");
+    -fx-background-size: contain;
+    -fx-padding: 30px;
+    -fx-spacing: 30px;
+
+}
