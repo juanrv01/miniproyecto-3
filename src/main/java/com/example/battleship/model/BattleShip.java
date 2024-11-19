@@ -67,4 +67,20 @@ public class BattleShip {
         }
     }
 
+    public boolean gameOver(Player defaultPlayer) {
+        int[][] matriz = defaultPlayer.getBoard().getBoard();
+        int shotsHit=0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (matriz[i][j] == 2) {
+                    shotsHit++;
+                }
+            }
+        }
+        if (shotsHit==20) {
+            return true;
+        }
+        return false;
+    }
+
 }
