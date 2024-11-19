@@ -9,11 +9,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+
 
 public class GameStageController {
     BattleShip battleShip = new BattleShip();
     Boat selectedBoat;
     AlertHandler alertHandler = new AlertHandler();
+    Boolean showingOpponentBoats = false;
 
     @FXML
     TextField PlaceBoatXCoordenate,PlaceBoatYCoordenate,ShootXCoordenate,ShootYCoordenate;
@@ -22,7 +25,7 @@ public class GameStageController {
     Label fragataLabel,destructorLabel,submarinoLabel,portaAvionesLabel;
 
     @FXML
-    GridPane playerBoatsGrid;
+    GridPane playerBoatsGrid,machineBoard;
 
     @FXML
     HBox coordinatePlaceHbox,ShootContainerHBox;
@@ -44,6 +47,9 @@ public class GameStageController {
         coordinatePlaceHbox.getChildren().add(1,PlaceBoatYCoordenate);// Añadir al layout
         ShootContainerHBox.getChildren().add(0,ShootXCoordenate);
         ShootContainerHBox.getChildren().add(1,ShootYCoordenate);
+
+        createCoordinateLabels(playerBoatsGrid);
+        createCoordinateLabels(machineBoard);
         battleShip.placeBoatsMachine();
         battleShip.getMachine().getBoard().printBoard();
     }
@@ -69,6 +75,19 @@ public class GameStageController {
         return coordinatesTxt;
     }
 
+    void createCoordinateLabels(GridPane grid) {
+        for (int j = 0; j < 10; j++) {
+            Label label = new Label(String.valueOf(j+1));
+            label.getStyleClass().add("cordinateLabel");
+            grid.add(label,0,j+1);
+        }
+
+        for (int j = 0; j < 10; j++) {
+            Label label = new Label(String.valueOf(j+1));
+            label.getStyleClass().add("cordinateLabel");
+            grid.add(label,j+1,0);
+        }
+    }
 
     @FXML
     void ShootButton(ActionEvent event) {
@@ -165,7 +184,7 @@ public class GameStageController {
                 responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
                     case 0:
-                        drawBoat(selectedBoat);
+                        drawBoat(selectedBoat,playerBoatsGrid);
                         selectedBoat=null;
                         break;
                     case 1:
@@ -182,10 +201,25 @@ public class GameStageController {
         }
     }
 
-    private void drawBoat(Boat boat) {
+    @FXML
+    void seeOpponetBoats(ActionEvent event) {
+        if (!showingOpponentBoats) {
+            ArrayList<Boat> machineBoatsArray = battleShip.getMachine().getBoard().getAllBoats();
+            for (Boat machineBoat : machineBoatsArray) {
+                drawBoat(machineBoat,machineBoard);
+            }
+            showingOpponentBoats = true;
+        } else {
+            machineBoard.getChildren().removeIf(node -> node instanceof Rectangle);
+            showingOpponentBoats = false;
+        }
+
+    }
+
+    private void drawBoat(Boat boat, GridPane grid) {
         // Crear un nodo gráfico para el barco
         for (int i = 0; i < boat.getLenght(); i++) {
-            Rectangle cell = new Rectangle(40, 40); // Tamaño de cada celda
+            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
             cell.setFill(Color.BLUE); // Color del barco
             cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
 
@@ -194,8 +228,9 @@ public class GameStageController {
             int y = boat.getPlacementY() + (boat.isVertical() ? i+1 : 1);
 
             // Añadir el nodo al GridPane
-            playerBoatsGrid.add(cell, x, y);
+            grid.add(cell, x, y);
         }
     }
+
 
 }
