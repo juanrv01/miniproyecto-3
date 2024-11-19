@@ -4,6 +4,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.util.ArrayList;
+
 public class Board {
 
     private int[][] board;
@@ -73,12 +75,14 @@ public class Board {
 
     public boolean checkBoardSpace (boolean vertical,int positionX,int positionY, int lenght) {
         if (vertical==true) {
+            if (positionY + lenght > board.length) return false;
             for (int i = positionY; i < (positionY+lenght); i++) {
                 if (board[i][positionX]==1) {
                     return false;
                 }
             }
         } else {
+            if (positionX + lenght > board[0].length) return false;
             for (int i = positionX; i < positionX+lenght; i++) {
                 if (board[positionX][i] == 1){
                    return false;
@@ -197,5 +201,19 @@ public class Board {
         }
     }
 
+    public ArrayList<Boat> getAllBoats () {
+        ArrayList<Boat> allBoats = new ArrayList<>();
+        allBoats.add(getPortaAviones());
+        allBoats.add(getSubmarino1());
+        allBoats.add(getSubmarino2());
+        allBoats.add(getDestructor1());
+        allBoats.add(getDestructor2());
+        allBoats.add(getDestructor3());
+        allBoats.add(getFragata1());
+        allBoats.add(getFragata2());
+        allBoats.add(getFragata3());
+        allBoats.add(getFragata4());
+        return allBoats;
+    }
 
 }

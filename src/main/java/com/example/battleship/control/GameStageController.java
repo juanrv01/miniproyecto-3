@@ -44,6 +44,8 @@ public class GameStageController {
         coordinatePlaceHbox.getChildren().add(1,PlaceBoatYCoordenate);// Añadir al layout
         ShootContainerHBox.getChildren().add(0,ShootXCoordenate);
         ShootContainerHBox.getChildren().add(1,ShootYCoordenate);
+        battleShip.placeBoatsMachine();
+        battleShip.getMachine().getBoard().printBoard();
     }
 
     private TextField createCoordinatesTxtf() {
@@ -195,6 +197,5 @@ public class GameStageController {
             playerBoatsGrid.add(cell, x, y);
         }
     }
-
 
 }
