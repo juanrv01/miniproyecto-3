@@ -97,13 +97,15 @@ public class Board {
     }
 
     public void markOcuppiedSpaces(Boat selectedBoat) {
+        int x= selectedBoat.getPlacementX(), y= selectedBoat.getPlacementY(), l= selectedBoat.getLenght();
         if (selectedBoat.isVertical()==true) {
-            for (int i = selectedBoat.getPlacementY(); i < (selectedBoat.getPlacementX()+ selectedBoat.getLenght()); i++) {
-                board[i][selectedBoat.getPlacementY()] = 1; //Marcar posicion como ocupada
+            System.out.println(x+""+y);
+            for (int i = y; i < (y+ l); i++) {
+                board[i][x] = 1; //Marcar posicion como ocupada
             }
         } else {
-            for (int i = selectedBoat.getPlacementX(); i < selectedBoat.getPlacementX()+ selectedBoat.getLenght(); i++) {
-                board[selectedBoat.getPlacementX()][i] = 1; //Marcar posicion como ocpada
+            for (int i = x; i < x+l; i++) {
+                board[y][i] = 1; //Marcar posicion como ocpada
             }
         }
         identifyCounterToReduct(selectedBoat.getLenght());
