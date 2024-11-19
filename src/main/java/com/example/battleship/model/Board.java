@@ -115,11 +115,13 @@ public class Board {
         identifyCounterToReduct(selectedBoat.getLenght());
     }
 
-    public void markShoots(int positionX,int positionY) {
+    public boolean markShoots(int positionX,int positionY) {
         if (board[positionY][positionX] == 1) {
             board[positionY][positionX] = 2; //Tiro Acertado
+            return true;
         } else {
             board[positionY][positionX] = 3; //Tiro Fallado
+            return false;
         }
     }
 

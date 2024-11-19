@@ -22,8 +22,8 @@ public class BattleShip {
         return player;
     }
 
-    public void shoot(int positionX, int positionY) {
-        player.getBoard().markShoots(positionX, positionY);
+    public boolean shoot(int positionX, int positionY,Player defaultPlayer) {
+        return defaultPlayer.getBoard().markShoots(positionX, positionY);
     }
 
 

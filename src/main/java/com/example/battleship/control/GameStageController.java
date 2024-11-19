@@ -1,6 +1,7 @@
 package com.example.battleship.control;
 
 import com.example.battleship.model.*;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,8 +9,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GameStageController {
@@ -90,15 +93,31 @@ public class GameStageController {
     }
 
     @FXML
-    void ShootButton(ActionEvent event) {
-        int x,y;
-        String aux;
-        aux= ShootXCoordenate.getText();
-        x= Integer.parseInt(aux);
-        aux= ShootYCoordenate.getText();
-        y= Integer.parseInt(aux);
-        battleShip.shoot(x,y);
-        battleShip.getMachine().getBoard().printBoard();
+    void ShootButton(ActionEvent event) throws InterruptedException {
+        Random random = new Random();
+        if (ShootXCoordenate.getText().isEmpty()==false && ShootYCoordenate.getText().isEmpty()==false) {
+            int x,y;
+            String aux;
+            aux= ShootXCoordenate.getText();
+            x= Integer.parseInt(aux);
+            aux= ShootYCoordenate.getText();
+            y= Integer.parseInt(aux);
+            boolean machineBoatHit= battleShip.shoot(x-1,y-1,battleShip.getMachine());
+            drawShoot(machineBoatHit,machineBoard,x,y);
+            waitFor(Duration.seconds(1), () ->{
+                int w = random.nextInt(10);
+                int z = random.nextInt(10);
+                boolean playerBoatHit= battleShip.shoot(w-1,z-1,battleShip.getPlayer());
+                drawShoot(playerBoatHit,playerBoatsGrid,w,z);
+            });
+
+        }
+    }
+
+    public void waitFor(Duration duration, Runnable afterWait) {
+        PauseTransition pause = new PauseTransition(duration);
+        pause.setOnFinished(e -> afterWait.run());
+        pause.play();
     }
 
     @FXML
@@ -179,7 +198,6 @@ public class GameStageController {
             x= Integer.parseInt(aux)-1;
             aux= PlaceBoatYCoordenate.getText();
             y= Integer.parseInt(aux)-1;
-            System.out.println("x: "+x+"y:"+y);
             if (x<=10 && y<=10) {
                 responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
@@ -194,7 +212,6 @@ public class GameStageController {
                         alertHandler.coordenadasInvalidasBoatOverBoat();
                         break;
                 }
-                battleShip.getPlayer().getBoard().printBoard();
             } else {
                 alertHandler.coordenadasNoValidas();
             }
@@ -220,7 +237,7 @@ public class GameStageController {
         // Crear un nodo gráfico para el barco
         for (int i = 0; i < boat.getLenght(); i++) {
             Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
-            cell.setFill(Color.BLUE); // Color del barco
+            cell.setFill(Color.GRAY); // Color del barco
             cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
 
             // Calcular la posición del segmento del barco
@@ -232,5 +249,17 @@ public class GameStageController {
         }
     }
 
-
+    private void drawShoot(boolean hit,GridPane grid, int x, int y) {
+        if (hit==true) {
+            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
+            cell.setFill(Color.RED); // Color del barco
+            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
+            grid.add(cell, x, y);
+        } else {
+            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
+            cell.setFill(Color.BLUE); // Color del barco
+            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
+            grid.add(cell, x, y);
+        }
+    }
 }
