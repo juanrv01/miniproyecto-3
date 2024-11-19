@@ -47,6 +47,9 @@ public class GameStageController {
         coordinatePlaceHbox.getChildren().add(1,PlaceBoatYCoordenate);// Añadir al layout
         ShootContainerHBox.getChildren().add(0,ShootXCoordenate);
         ShootContainerHBox.getChildren().add(1,ShootYCoordenate);
+
+        createCoordinateLabels(playerBoatsGrid);
+        createCoordinateLabels(machineBoard);
         battleShip.placeBoatsMachine();
         battleShip.getMachine().getBoard().printBoard();
     }
@@ -72,6 +75,19 @@ public class GameStageController {
         return coordinatesTxt;
     }
 
+    void createCoordinateLabels(GridPane grid) {
+        for (int j = 0; j < 10; j++) {
+            Label label = new Label(String.valueOf(j+1));
+            label.getStyleClass().add("cordinateLabel");
+            grid.add(label,0,j+1);
+        }
+
+        for (int j = 0; j < 10; j++) {
+            Label label = new Label(String.valueOf(j+1));
+            label.getStyleClass().add("cordinateLabel");
+            grid.add(label,j+1,0);
+        }
+    }
 
     @FXML
     void ShootButton(ActionEvent event) {
