@@ -13,7 +13,7 @@ public class IntroStageView extends Stage {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/battleship/intro-game-view.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/com/example/battleship/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/example/battleship/GameStyles.css").toExternalForm());
         setScene(scene);
         setTitle("Battleship Game");
         setResizable(false);

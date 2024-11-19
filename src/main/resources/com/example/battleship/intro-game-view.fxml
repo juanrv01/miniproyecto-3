@@ -4,11 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:id="introScreenContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="introScreenContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleship.control.IntroStageController">
    <children>
       <Label fx:id="TitleScreen" text="BattleShip" />
-      <Button fx:id="newGameButton" mnemonicParsing="false" text="Nuevo Juego" />
-      <Button fx:id="continueGameButton" mnemonicParsing="false" text="Continuar" />
+      <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#newGameButton" text="Nuevo Juego" />
+      <Button fx:id="continueGameButton" mnemonicParsing="false" onAction="#continueButton" text="Continuar" />
    </children>
 </VBox>
