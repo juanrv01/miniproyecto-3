@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 
 public class GameStageController {
@@ -155,13 +155,15 @@ public class GameStageController {
             int x,y,responseFromFunction;
             String aux;
             aux= PlaceBoatXCoordenate.getText();
-            x= Integer.parseInt(aux);
+            x= Integer.parseInt(aux)-1;
             aux= PlaceBoatYCoordenate.getText();
-            y= Integer.parseInt(aux);
+            y= Integer.parseInt(aux)-1;
+            System.out.println("x: "+x+"y:"+y);
             if (x<=10 && y<=10) {
-                responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x-1,y-1,selectedBoat.getLenght(),selectedBoat);
+                responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
                     case 0:
+                        drawBoat(selectedBoat);
                         selectedBoat=null;
                         break;
                     case 1:
@@ -175,6 +177,22 @@ public class GameStageController {
             } else {
                 alertHandler.coordenadasNoValidas();
             }
+        }
+    }
+
+    private void drawBoat(Boat boat) {
+        // Crear un nodo gráfico para el barco
+        for (int i = 0; i < boat.getLenght(); i++) {
+            Rectangle cell = new Rectangle(40, 40); // Tamaño de cada celda
+            cell.setFill(Color.BLUE); // Color del barco
+            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
+
+            // Calcular la posición del segmento del barco
+            int x = boat.getPlacementX() + (boat.isVertical() ? 1 : i+1);
+            int y = boat.getPlacementY() + (boat.isVertical() ? i+1 : 1);
+
+            // Añadir el nodo al GridPane
+            playerBoatsGrid.add(cell, x, y);
         }
     }
 
