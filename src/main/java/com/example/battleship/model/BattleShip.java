@@ -27,8 +27,9 @@ public class BattleShip {
         } else if (player.getBoard().checkBoardSpace(vertical, positionX, positionY, lenght)==false) {
             return 2;
         } else {
-            player.getBoard().markOcuppiedSpaces(vertical, positionX, positionY, lenght,boat);
             boat.setPlacementX(positionX,positionY);
+            boat.setValueVertical(vertical);
+            player.getBoard().markOcuppiedSpaces(boat);
             return 0;
         }
     }

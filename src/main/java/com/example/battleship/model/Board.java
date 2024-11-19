@@ -96,14 +96,14 @@ public class Board {
         }
     }
 
-    public void markOcuppiedSpaces(boolean vertical,int positionX,int positionY, int lenght,Boat selectedBoat) {
-        if (vertical==true) {
-            for (int i = positionY; i < (positionY+lenght); i++) {
-                board[i][positionY] = 1; //Marcar posicion como ocupada
+    public void markOcuppiedSpaces(Boat selectedBoat) {
+        if (selectedBoat.isVertical()==true) {
+            for (int i = selectedBoat.getPlacementY(); i < (selectedBoat.getPlacementX()+ selectedBoat.getLenght()); i++) {
+                board[i][selectedBoat.getPlacementY()] = 1; //Marcar posicion como ocupada
             }
         } else {
-            for (int i = positionX; i < positionX+lenght; i++) {
-                board[positionX][i] = 1; //Marcar posicion como ocpada
+            for (int i = selectedBoat.getPlacementX(); i < selectedBoat.getPlacementX()+ selectedBoat.getLenght(); i++) {
+                board[selectedBoat.getPlacementX()][i] = 1; //Marcar posicion como ocpada
             }
         }
         identifyCounterToReduct(selectedBoat.getLenght());

@@ -1,7 +1,6 @@
 package com.example.battleship.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Boat implements Serializable{
     private int lenght,placementX,placementY;
@@ -34,6 +33,9 @@ public class Boat implements Serializable{
         this.vertical = false;
     }
 
+    public void setValueVertical(boolean valueVertical) {
+        this.vertical = valueVertical;
+    }
     public boolean isVertical() {
         return vertical;
     }
