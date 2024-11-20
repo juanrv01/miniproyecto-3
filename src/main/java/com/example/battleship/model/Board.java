@@ -13,6 +13,7 @@ public class Board implements Serializable {
     private Boat portaAviones, submarino1, submarino2, destructor1, destructor2, destructor3, fragata1, fragata2, fragata3, fragata4;
     IntegerProperty portaavionesCount,submarinoCount,destructorCount,fragataCount;
 
+
     public Board() {
         this.board = new int[10][10];
         fillZeros();

@@ -16,10 +16,19 @@ import java.util.Random;
 
 
 public class GameStageController {
+
     BattleShip battleShip = new BattleShip();
+
     Boat selectedBoat;
     AlertHandler alertHandler = new AlertHandler();
     Boolean showingOpponentBoats = false;
+
+    private SerializableFileHandler serializableFileHandler;
+    void setBattleShip(BattleShip battleShip) {
+        if(battleShip != null) {
+            battleShip = battleShip;
+        }
+    }
 
     @FXML
     TextField PlaceBoatXCoordenate,PlaceBoatYCoordenate,ShootXCoordenate,ShootYCoordenate;
@@ -36,6 +45,7 @@ public class GameStageController {
 
     @FXML
     void initialize() {
+        serializableFileHandler = new SerializableFileHandler();
         fragataLabel.textProperty().bind(battleShip.getPlayer().getBoard().getFragataCountLabel().asString());
         destructorLabel.textProperty().bind(battleShip.getPlayer().getBoard().getDestructorCountLabel().asString());
         submarinoLabel.textProperty().bind(battleShip.getPlayer().getBoard().getSubmarinoCountLabel().asString());
@@ -56,6 +66,7 @@ public class GameStageController {
         battleShip.placeBoatsMachine();
         battleShip.getMachine().getBoard().printBoard();
     }
+
 
     private TextField createCoordinatesTxtf() {
         TextField coordinatesTxt = new TextField();
@@ -212,6 +223,7 @@ public class GameStageController {
                 responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
                     case 0:
+                        serializableFileHandler.serialize(battleShip.getPlayer().getNickname(),battleShip);
                         drawBoat(selectedBoat,playerBoatsGrid);
                         selectedBoat=null;
                         break;
