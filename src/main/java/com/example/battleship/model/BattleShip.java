@@ -1,10 +1,11 @@
 package com.example.battleship.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BattleShip {
+public class BattleShip implements Serializable {
 
     private Player machine;
     private Player player;
@@ -65,6 +66,22 @@ public class BattleShip {
             machine.getBoard().markOcuppiedSpaces(boat);
             System.out.println("boat placed ");
         }
+    }
+
+    public boolean gameOver(Player defaultPlayer) {
+        int[][] matriz = defaultPlayer.getBoard().getBoard();
+        int shotsHit=0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (matriz[i][j] == 2) {
+                    shotsHit++;
+                }
+            }
+        }
+        if (shotsHit==20) {
+            return true;
+        }
+        return false;
     }
 
 }
