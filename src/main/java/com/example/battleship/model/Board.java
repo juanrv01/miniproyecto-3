@@ -4,9 +4,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable {
 
     private int[][] board;
     private Boat portaAviones, submarino1, submarino2, destructor1, destructor2, destructor3, fragata1, fragata2, fragata3, fragata4;

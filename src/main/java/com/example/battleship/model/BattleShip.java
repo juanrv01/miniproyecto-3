@@ -1,10 +1,11 @@
 package com.example.battleship.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BattleShip {
+public class BattleShip implements Serializable {
 
     private Player machine;
     private Player player;
