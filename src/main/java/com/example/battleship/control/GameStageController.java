@@ -262,4 +262,41 @@ public class GameStageController {
             grid.add(cell, x, y);
         }
     }
+    private void drawBoat2D(Boat boat, GridPane grid) {
+        Color boatColor;
+
+        // Determinar el color según el tipo de barco
+        switch (boat.getLenght()) {
+            case 4: // Portaaviones
+                boatColor = Color.DARKBLUE;
+                break;
+            case 3: // Submarino
+                boatColor = Color.GREEN;
+                break;
+            case 2: // Destructor
+                boatColor = Color.BROWN;
+                break;
+            case 1: // Fragata
+                boatColor = Color.YELLOW;
+                break;
+            default:
+                boatColor = Color.GRAY; // Color por defecto
+        }
+
+        // Dibujar cada segmento del barco
+        for (int i = 0; i < boat.getLenght(); i++) {
+            Rectangle shipSegment = new Rectangle(18, 18); // Tamaño de cada segmento
+            shipSegment.setFill(boatColor); // Color del barco
+            shipSegment.setStroke(Color.BLACK); // Borde para visibilidad
+
+            // Calcular la posición de cada segmento
+            int x = boat.getPlacementX() + (boat.isVertical() ? 0 : i);
+            int y = boat.getPlacementY() + (boat.isVertical() ? i : 0);
+
+            // Agregar el segmento al GridPane
+            grid.add(shipSegment, x + 1, y + 1);
+        }
+    }
+
+
 }
