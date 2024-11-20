@@ -104,12 +104,22 @@ public class GameStageController {
             y= Integer.parseInt(aux);
             boolean machineBoatHit= battleShip.shoot(x-1,y-1,battleShip.getMachine());
             drawShoot(machineBoatHit,machineBoard,x,y);
-            waitFor(Duration.seconds(1), () ->{
-                int w = random.nextInt(10);
-                int z = random.nextInt(10);
-                boolean playerBoatHit= battleShip.shoot(w-1,z-1,battleShip.getPlayer());
-                drawShoot(playerBoatHit,playerBoatsGrid,w,z);
-            });
+
+            if (battleShip.gameOver(battleShip.getMachine())==false) {
+                waitFor(Duration.seconds(1), () ->{
+                    int w = random.nextInt(9);
+                    int z = random.nextInt(9);
+                    boolean playerBoatHit= battleShip.shoot(w,z,battleShip.getPlayer());
+                    drawShoot(playerBoatHit,playerBoatsGrid,w,z);
+                });
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Game Over");
+                alert.setHeaderText(null);
+                alert.setContentText("Game Over");
+                alert.showAndWait();
+
+            }
 
         }
     }
