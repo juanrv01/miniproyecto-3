@@ -5,6 +5,7 @@ import com.example.battleship.view.IntroStageView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -16,10 +17,7 @@ public class IntroStageController {
     private boolean NewGamePressed = false;
 
     @FXML
-    VBox introScreenContainer;
-
-    @FXML
-    Button startGameButton;
+    ComboBox partidasGuardadas;
 
     @FXML
     TextField usernameField;
@@ -30,18 +28,6 @@ public class IntroStageController {
 
     @FXML
     void newGameButton(ActionEvent event) {
-        if (!NewGamePressed) {
-            usernameField.setVisible(true);
-            startGameButton.setVisible(true);
-            NewGamePressed = true;
-        }   else {
-            usernameField.setVisible(false);
-            startGameButton.setVisible(false);
-            NewGamePressed = false;
-        }
-    }
-
-    void startGame(ActionEvent event) {
         String username = usernameField.getText();
         if (username == null || username.trim().isEmpty()) {
             System.out.println("El nombre de usuario no puede estar vacío.");
@@ -63,4 +49,10 @@ public class IntroStageController {
             System.out.println("Ocurrió un error al configurar el nombre del usuario.");
         }
     }
+
+    @FXML
+    void continueButton(ActionEvent event) {
+
+    }
+    
 }
