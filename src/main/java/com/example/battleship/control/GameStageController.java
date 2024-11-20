@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -307,6 +308,38 @@ public class GameStageController {
             grid.add(shipSegment, x + 1, y + 1);
         }
     }
+    // Dibujar "agua" (disparo fallido)
+    private void drawWater(int x, int y, GridPane grid) {
+        Circle waterMarker = new Circle(9); // Radio del círculo
+        waterMarker.setFill(Color.BLUE); // Color azul para agua
+        waterMarker.setStroke(Color.BLACK); // Borde para visibilidad
+        grid.add(waterMarker, x + 1, y + 1); // Posicionar en el tablero
+    }
+
+    // Dibujar "tocado" (disparo acertado en barco)
+    private void drawHit(int x, int y, GridPane grid) {
+        Circle hitMarker = new Circle(9); // Radio del círculo
+        hitMarker.setFill(Color.ORANGE); // Color naranja para tocado
+        hitMarker.setStroke(Color.BLACK); // Borde para visibilidad
+        grid.add(hitMarker, x + 1, y + 1); // Posicionar en el tablero
+    }
+
+    // Dibujar "hundido" (barco completamente destruido)
+    private void drawSunk(Boat boat, GridPane grid) {
+        for (int i = 0; i < boat.getLenght(); i++) {
+            Rectangle sunkSegment = new Rectangle(18, 18); // Tamaño del segmento
+            sunkSegment.setFill(Color.RED); // Color rojo para barco hundido
+            sunkSegment.setStroke(Color.BLACK); // Borde para visibilidad
+
+            // Calcular la posición de cada segmento
+            int x = boat.getPlacementX() + (boat.isVertical() ? 0 : i);
+            int y = boat.getPlacementY() + (boat.isVertical() ? i : 0);
+
+            // Agregar al tablero
+            grid.add(sunkSegment, x + 1, y + 1);
+        }
+    }
+
 
 
 }
