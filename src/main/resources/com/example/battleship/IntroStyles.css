@@ -1,0 +1,7 @@
+Button {
+    -fx-pref-width: 100px;
+}
+
+#introScreenContainer {
+    -fx-spacing: 10;
+}
