@@ -4,6 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,7 +14,48 @@ public class Board implements Serializable {
 
     private int[][] board;
     private Boat portaAviones, submarino1, submarino2, destructor1, destructor2, destructor3, fragata1, fragata2, fragata3, fragata4;
-    IntegerProperty portaavionesCount,submarinoCount,destructorCount,fragataCount;
+
+    private transient IntegerProperty portaavionesCount = new SimpleIntegerProperty();
+    private transient IntegerProperty submarinoCount = new SimpleIntegerProperty();
+    private transient IntegerProperty destructorCount = new SimpleIntegerProperty();
+    private transient IntegerProperty fragataCount = new SimpleIntegerProperty();
+
+    private int portaavionesCountValue; // Guardar valor serializable
+    private int submarinoCountValue;
+    private int destructorCountValue;
+    private int fragataCountValue;
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // Guardar el estado de los contadores
+        portaavionesCountValue = portaavionesCount.get();
+        submarinoCountValue = submarinoCount.get();
+        destructorCountValue = destructorCount.get();
+        fragataCountValue = fragataCount.get();
+
+        out.defaultWriteObject(); // Serializar el resto de los campos
+
+        // Guardar manualmente el arreglo 2D
+        for (int[] row : board) {
+            out.writeObject(row);
+        }
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // Leer el resto de los campos
+
+        // Restaurar las propiedades de JavaFX
+        portaavionesCount = new SimpleIntegerProperty(portaavionesCountValue);
+        submarinoCount = new SimpleIntegerProperty(submarinoCountValue);
+        destructorCount = new SimpleIntegerProperty(destructorCountValue);
+        fragataCount = new SimpleIntegerProperty(fragataCountValue);
+
+        // Restaurar manualmente el arreglo 2D
+        board = new int[10][10];
+        for (int i = 0; i < board.length; i++) {
+            board[i] = (int[]) in.readObject();
+        }
+    }
+
 
     public Board() {
         this.board = new int[10][10];

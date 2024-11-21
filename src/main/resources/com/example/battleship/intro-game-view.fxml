@@ -13,6 +13,6 @@
       <TextField id="nameInputTextfield" fx:id="usernameField" layoutX="39.0" layoutY="181.0" prefHeight="24.0" prefWidth="101.0" />
       <Button layoutX="39.0" layoutY="212.0" mnemonicParsing="false" onAction="#continueButton" prefHeight="24.0" prefWidth="101.0" text="Continuar" />
       <Button layoutX="369.0" layoutY="14.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="29.0" text="X" />
-      <ComboBox fx:id="partidasGuardadas" layoutX="39.0" layoutY="247.0" onAction="#showSavedGames" prefHeight="24.0" prefWidth="101.0" />
+      <ComboBox fx:id="partidasGuardadas" layoutX="39.0" layoutY="247.0" prefHeight="24.0" prefWidth="101.0" />
    </children>
 </AnchorPane>
