@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="822.0" stylesheets="@GameStyles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleship.control.GameStageController">
   <columnConstraints>
@@ -59,12 +60,18 @@
                               <Image url="@RadarPixelArt.png" />
                            </image>
                         </ImageView>
-                        <Button mnemonicParsing="false" onAction="#seeOpponetBoats" text="Radar" />
+                        <Button mnemonicParsing="false" onAction="#seeOpponetBoats" style="-fx-background-color: #ada9a7; -fx-border-color: white;" text="Radar">
+                           <font>
+                              <Font name="Courier New Bold" size="12.0" />
+                           </font></Button>
                      </children>
                   </VBox>
                   <HBox id="woodTable" fx:id="ShootContainerHBox" alignment="CENTER" prefHeight="165.0" prefWidth="264.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#ShootButton" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#ShootButton" style="-fx-background-color: #000000; -fx-border-color: white;" text="Button" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="12.0" />
+                           </font></Button>
                      </children>
                   </HBox>
                </children>
@@ -107,35 +114,68 @@
                      <children>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectPortaAviones" prefHeight="73.0" prefWidth="155.0" text="Button" />
-                              <Label fx:id="portaAvionesLabel" text="Label" />
+                              <Button mnemonicParsing="false" onAction="#selectPortaAviones" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                                 <font>
+                                    <Font name="Courier New Bold" size="15.0" />
+                                 </font></Button>
+                              <Label fx:id="portaAvionesLabel" text="Label">
+                                 <font>
+                                    <Font name="Courier New Bold" size="13.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectSubmarino" prefHeight="73.0" prefWidth="155.0" text="Button" />
-                              <Label fx:id="submarinoLabel" text="Label" />
+                              <Button mnemonicParsing="false" onAction="#selectSubmarino" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                                 <font>
+                                    <Font name="Courier New Bold" size="15.0" />
+                                 </font></Button>
+                              <Label fx:id="submarinoLabel" text="Label">
+                                 <font>
+                                    <Font name="Courier New Bold" size="13.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectDestructor" prefHeight="73.0" prefWidth="155.0" text="Button" />
-                              <Label fx:id="destructorLabel" text="Label" />
+                              <Button mnemonicParsing="false" onAction="#selectDestructor" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                                 <font>
+                                    <Font name="Courier New Bold" size="15.0" />
+                                 </font></Button>
+                              <Label fx:id="destructorLabel" text="Label">
+                                 <font>
+                                    <Font name="Courier New Bold" size="13.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectFragata" prefHeight="73.0" prefWidth="155.0" text="Button" />
-                              <Label fx:id="fragataLabel" text="Label" />
+                              <Button mnemonicParsing="false" onAction="#selectFragata" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                                 <font>
+                                    <Font name="Courier New Bold" size="15.0" />
+                                 </font></Button>
+                              <Label fx:id="fragataLabel" text="Label">
+                                 <font>
+                                    <Font name="Courier New Bold" size="13.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                   <HBox fx:id="coordinatePlaceHbox" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#setVertical" text="V" />
-                        <Button mnemonicParsing="false" onAction="#setHorizontal" text="H" />
-                        <Button mnemonicParsing="false" onAction="#placeButton" text="Place" />
+                        <Button mnemonicParsing="false" onAction="#setVertical" style="-fx-background-color: #ff9b62;" text="V">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#setHorizontal" style="-fx-background-color: #ff9b62;" text="H">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#placeButton" style="-fx-background-color: #ff9b62;" text="Place">
+                           <font>
+                              <Font name="Courier New Bold" size="13.0" />
+                           </font></Button>
                      </children>
                   </HBox>
                </children>

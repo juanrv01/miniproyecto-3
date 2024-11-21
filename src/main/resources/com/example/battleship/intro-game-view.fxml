@@ -5,14 +5,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="362.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleship.control.IntroStageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="412.0" style="-fx-background-color: #4893ec;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleship.control.IntroStageController">
    <children>
-      <Label layoutX="46.0" layoutY="91.0" text="Batalla Naval" />
-      <Button layoutX="39.0" layoutY="148.0" mnemonicParsing="false" onAction="#newGameButton" text="Nuevo Juego" />
-      <TextField id="nameInputTextfield" fx:id="usernameField" layoutX="39.0" layoutY="181.0" prefHeight="24.0" prefWidth="101.0" />
-      <Button layoutX="39.0" layoutY="212.0" mnemonicParsing="false" onAction="#continueButton" prefHeight="24.0" prefWidth="101.0" text="Continuar" />
-      <Button layoutX="369.0" layoutY="14.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="29.0" text="X" />
-      <ComboBox fx:id="partidasGuardadas" layoutX="39.0" layoutY="247.0" prefHeight="24.0" prefWidth="101.0" />
+      <Label alignment="CENTER" layoutX="95.0" layoutY="115.0" prefHeight="31.0" prefWidth="223.0" text="Batalla Naval" textFill="#001aff">
+         <font>
+            <Font name="Haettenschweiler" size="29.0" />
+         </font></Label>
+      <Button layoutX="164.0" layoutY="211.0" mnemonicParsing="false" onAction="#newGameButton" style="-fx-background-color: #001aff;" text="Nuevo Juego" textFill="WHITE" />
+      <TextField id="nameInputTextfield" fx:id="usernameField" layoutX="156.0" layoutY="181.0" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #85bdff;" />
+      <Button layoutX="257.0" layoutY="260.0" mnemonicParsing="false" onAction="#continueButton" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #001aff;" text="Continuar" textFill="WHITE" />
+      <Button layoutX="369.0" layoutY="14.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="29.0" style="-fx-background-color: #001aff;" text="X" textFill="WHITE" />
+      <ComboBox fx:id="partidasGuardadas" layoutX="55.0" layoutY="260.0" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: #85bdff;" />
    </children>
 </AnchorPane>
