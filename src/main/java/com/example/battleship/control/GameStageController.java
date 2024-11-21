@@ -4,10 +4,12 @@ import com.example.battleship.model.*;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -17,15 +19,13 @@ import java.util.Random;
 
 
 public class GameStageController {
+    private SerializableFileHandler serializableFileHandler;
 
     BattleShip battleShip = new BattleShip();
     Boat selectedBoat;
     AlertHandler alertHandler = new AlertHandler();
     Boolean showingOpponentBoats = false;
     ArrayList<Boat> playerBoats = new ArrayList<>();
-
-    private SerializableFileHandler serializableFileHandler;
-
 
     @FXML
     TextField PlaceBoatXCoordenate,PlaceBoatYCoordenate,ShootXCoordenate,ShootYCoordenate;
@@ -43,11 +43,7 @@ public class GameStageController {
     @FXML
     void initialize() {
         serializableFileHandler = new SerializableFileHandler();
-        fragataLabel.textProperty().bind(battleShip.getPlayer().getBoard().getFragataCountLabel().asString());
-        destructorLabel.textProperty().bind(battleShip.getPlayer().getBoard().getDestructorCountLabel().asString());
-        submarinoLabel.textProperty().bind(battleShip.getPlayer().getBoard().getSubmarinoCountLabel().asString());
-        portaAvionesLabel.textProperty().bind(battleShip.getPlayer().getBoard().getPortaavionesCountLabel().asString());
-
+        setAmountBoatsLabels();
         PlaceBoatXCoordenate = createCoordinatesTxtf();
         PlaceBoatYCoordenate= createCoordinatesTxtf();
         ShootXCoordenate= createCoordinatesTxtf();
@@ -64,7 +60,12 @@ public class GameStageController {
         battleShip.placeBoatsMachine();
     }
 
-
+    public void setAmountBoatsLabels() {
+        fragataLabel.setText(""+battleShip.getPlayer().getBoard().getFragataCount());
+        destructorLabel.setText(""+battleShip.getPlayer().getBoard().getDestructorCount());
+        submarinoLabel.setText(""+battleShip.getPlayer().getBoard().getSubmarinoCount());
+        portaAvionesLabel.setText(""+battleShip.getPlayer().getBoard().getPortaavionesCount());
+    }
 
     public void setPlayers (Player player, Player machine) {
         battleShip.setPlayer(player);
@@ -136,27 +137,20 @@ public class GameStageController {
     }
 
     boolean allBoatsPlaces(){
-        int [][] tableroJugador = battleShip.getPlayer().getBoard().getBoard();
-        int count =0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if(tableroJugador[i][j]==1) {
-                    count++;
-                }
-            }
-        }
-
-        if (count==20) {
-            serialize();
-            return true;
-        }
-        return false;
+       int boatsLeft;
+       boatsLeft = battleShip.getPlayer().getBoard().getFragataCount() +
+               battleShip.getPlayer().getBoard().getDestructorCount() +
+               battleShip.getPlayer().getBoard().getSubmarinoCount() +
+               battleShip.getPlayer().getBoard().getPortaavionesCount();
+       if (boatsLeft==0) {
+           return true;
+       }
+       return false;
     }
 
     @FXML
     void ShootButton(ActionEvent event) throws InterruptedException {
         Random random = new Random();
-
 
         if (ShootXCoordenate.getText().isEmpty()==false && ShootYCoordenate.getText().isEmpty()==false && allBoatsPlaces()==true) {
             int x,y;
@@ -174,7 +168,6 @@ public class GameStageController {
                     int z = random.nextInt(9);
                     boolean playerBoatHit= battleShip.shoot(w+1,z+1,battleShip.getPlayer());
                     drawShoot(playerBoatHit,playerBoatsGrid,w+1,z+1);
-                    battleShip.getMachine().getBoard().printBoard();
                     serialize();
                 });
             } else {
@@ -266,20 +259,20 @@ public class GameStageController {
 
     @FXML
     void placeButton(ActionEvent event) {
-        if (selectedBoat != null){
-            int x,y,responseFromFunction;
-            String aux;
-            aux= PlaceBoatXCoordenate.getText();
-            x= Integer.parseInt(aux)-1;
-            aux= PlaceBoatYCoordenate.getText();
-            y= Integer.parseInt(aux)-1;
+        int x,y,responseFromFunction;
+        String aux1,aux2;
+        aux1= PlaceBoatXCoordenate.getText();
+        aux2= PlaceBoatYCoordenate.getText();
+        if (selectedBoat != null && aux1!="" && aux2!="") {
+            x= Integer.parseInt(aux1)-1;
+            y= Integer.parseInt(aux2)-1;
             if (x<=10 && y<=10) {
                 responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
                     case 0:
                         drawBoat(selectedBoat,playerBoatsGrid);
+                        setAmountBoatsLabels();
                         selectedBoat=null;
-                        battleShip.getPlayer().getBoard().printBoard();
                         serialize();
                         break;
                     case 1:
@@ -305,6 +298,9 @@ public class GameStageController {
             showingOpponentBoats = true;
         } else {
             machineBoard.getChildren().removeIf(node -> node instanceof Rectangle);
+            machineBoard.getChildren().removeIf(node ->
+                    node instanceof Circle && ((Circle) node).getFill().equals(Color.DARKGREY)
+            );
             showingOpponentBoats = false;
         }
 
@@ -402,11 +398,37 @@ public class GameStageController {
 
     // Dibujar "tocado" (disparo acertado en barco)
     private void drawHit(int x, int y, GridPane grid) {
-        Circle hitMarker = new Circle(9); // Radio del círculo
-        hitMarker.setFill(Color.ORANGE); // Color naranja para tocado
-        hitMarker.setStroke(Color.BLACK); // Borde para visibilidad
-        grid.add(hitMarker, x + 1, y + 1); // Posicionar en el tablero
+        // Crear un contenedor para agrupar las formas
+        Group flame = new Group();
+
+        // Crear la base de la llama (círculo rojo)
+        Circle base = new Circle(15); // Radio reducido a 10
+        base.setFill(Color.RED);
+        base.setCenterX(15); // Ajustar posición dentro del grupo
+        base.setCenterY(15);
+
+        // Crear el cuerpo de la llama (triángulo naranja)
+        Polygon body = new Polygon();
+        body.getPoints().addAll(
+                10.0, 0.0,   // Punta superior
+                0.0, 30.0,   // Esquina inferior izquierda
+                30.0, 30.0   // Esquina inferior derecha
+        );
+        body.setFill(Color.ORANGE);
+
+        // Crear un detalle de luz interna (círculo amarillo)
+        Circle innerLight = new Circle(8); // Radio reducido a 5
+        innerLight.setFill(Color.YELLOW);
+        innerLight.setCenterX(15);
+        innerLight.setCenterY(15);
+
+        // Agregar las formas al grupo
+        flame.getChildren().addAll(base, body, innerLight);
+
+        // Posicionar la llama en el tablero
+        grid.add(flame, x + 1, y + 1);
     }
+
 
     // Dibujar "hundido" (barco completamente destruido)
     private void drawSunk(Boat boat, GridPane grid) {

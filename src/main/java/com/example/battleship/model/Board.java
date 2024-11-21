@@ -15,46 +15,10 @@ public class Board implements Serializable {
     private int[][] board;
     private Boat portaAviones, submarino1, submarino2, destructor1, destructor2, destructor3, fragata1, fragata2, fragata3, fragata4;
 
-    private transient IntegerProperty portaavionesCount = new SimpleIntegerProperty();
-    private transient IntegerProperty submarinoCount = new SimpleIntegerProperty();
-    private transient IntegerProperty destructorCount = new SimpleIntegerProperty();
-    private transient IntegerProperty fragataCount = new SimpleIntegerProperty();
-
     private int portaavionesCountValue; // Guardar valor serializable
     private int submarinoCountValue;
     private int destructorCountValue;
     private int fragataCountValue;
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Guardar el estado de los contadores
-        portaavionesCountValue = portaavionesCount.get();
-        submarinoCountValue = submarinoCount.get();
-        destructorCountValue = destructorCount.get();
-        fragataCountValue = fragataCount.get();
-
-        out.defaultWriteObject(); // Serializar el resto de los campos
-
-        // Guardar manualmente el arreglo 2D
-        for (int[] row : board) {
-            out.writeObject(row);
-        }
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject(); // Leer el resto de los campos
-
-        // Restaurar las propiedades de JavaFX
-        portaavionesCount = new SimpleIntegerProperty(portaavionesCountValue);
-        submarinoCount = new SimpleIntegerProperty(submarinoCountValue);
-        destructorCount = new SimpleIntegerProperty(destructorCountValue);
-        fragataCount = new SimpleIntegerProperty(fragataCountValue);
-
-        // Restaurar manualmente el arreglo 2D
-        board = new int[10][10];
-        for (int i = 0; i < board.length; i++) {
-            board[i] = (int[]) in.readObject();
-        }
-    }
 
 
     public Board() {
@@ -70,44 +34,30 @@ public class Board implements Serializable {
         this.fragata2 = new Boat(1);
         this.fragata3 = new Boat(1);
         this.fragata4 = new Boat(1);
-        this.portaavionesCount = new SimpleIntegerProperty(1);
-        this.submarinoCount = new SimpleIntegerProperty(2);
-        this.destructorCount = new SimpleIntegerProperty(3);
-        this.fragataCount = new SimpleIntegerProperty(4);
+        this.portaavionesCountValue = 1;
+        this.submarinoCountValue = 2;
+        this.destructorCountValue = 3;
+        this.fragataCountValue = 4;
     }
 
     public int[][] getBoard() {
         return board;
     }
 
-    public IntegerProperty getPortaavionesCountLabel() {
-        return portaavionesCount;
-    }
-
-    public IntegerProperty getSubmarinoCountLabel() {
-        return submarinoCount;
-    }
-
-    public IntegerProperty getDestructorCountLabel() {
-        return destructorCount;
-    }
-    public IntegerProperty getFragataCountLabel() {
-        return fragataCount;
-    }
 
     public int getPortaavionesCount() {
-        return portaavionesCount.intValue();
+        return portaavionesCountValue;
     }
 
     public int getSubmarinoCount() {
-        return submarinoCount.intValue();
+        return submarinoCountValue;
     }
 
     public int getDestructorCount() {
-        return destructorCount.intValue();
+        return destructorCountValue;
     }
     public int getFragataCount() {
-        return fragataCount.intValue();
+        return fragataCountValue;
     }
 
     public void fillZeros () {
@@ -119,18 +69,23 @@ public class Board implements Serializable {
     }
 
     public boolean checkBoardSpace (boolean vertical,int positionX,int positionY, int lenght) {
-        if (vertical==true) {
+        if (vertical) {
+            // Comprueba si el barco excede los límites del tablero verticalmente
             if (positionY + lenght > board.length) return false;
-            for (int i = positionY; i < (positionY+lenght); i++) {
-                if (board[i][positionX]==1) {
+
+            // Itera por las celdas verticales
+            for (int i = positionY; i < positionY + lenght; i++) {
+                if (board[i][positionX] == 1) { // Comprueba si alguna celda está ocupada
                     return false;
                 }
             }
         } else {
             if (positionX + lenght > board[0].length) return false;
-            for (int i = positionX; i < positionX+lenght; i++) {
-                if (board[positionX][i] == 1){
-                   return false;
+
+            // Itera por las celdas horizontales
+            for (int i = positionX; i < positionX + lenght; i++) {
+                if (board[positionY][i] == 1) { // Corrige el índice para usar la fila fija
+                    return false;
                 }
             }
         }
@@ -148,7 +103,6 @@ public class Board implements Serializable {
     public void markOcuppiedSpaces(Boat selectedBoat) {
         int x= selectedBoat.getPlacementX(), y= selectedBoat.getPlacementY(), l= selectedBoat.getLenght();
         if (selectedBoat.isVertical()==true) {
-            System.out.println(x+""+y);
             for (int i = y; i < (y+ l); i++) {
                 board[i][x] = 1; //Marcar posicion como ocupada
             }
@@ -162,6 +116,9 @@ public class Board implements Serializable {
 
     public boolean markShoots(int positionX,int positionY) {
         if (board[positionY][positionX] == 1) {
+            board[positionY][positionX] = 2; //Tiro Acertado
+            return true;
+        } else if (board[positionY][positionX] == 2) {
             board[positionY][positionX] = 2; //Tiro Acertado
             return true;
         } else {
@@ -212,23 +169,19 @@ public class Board implements Serializable {
     }
 
     public void reduceFragataCount(){
-        int intFragataCount = fragataCount.get();
-        fragataCount.set(intFragataCount-1);
+        fragataCountValue--;
     }
 
     public void reduceDestructor() {
-        int intDestructorCount = destructorCount.get();
-        destructorCount.set(intDestructorCount-1);
+        destructorCountValue--;
     }
 
     public void reduceSubmarinoCount(){
-        int intSubmarinoCount = submarinoCount.get();
-        submarinoCount.set(intSubmarinoCount-1);
+        submarinoCountValue--;
     }
 
     public void reducePortaAvionesCount(){
-        int intPortaAvionesCount = portaavionesCount.get();
-        portaavionesCount.set(intPortaAvionesCount-1);
+        portaavionesCountValue--;
     }
 
     public void identifyCounterToReduct(int lenght) {

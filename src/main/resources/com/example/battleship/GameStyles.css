@@ -45,7 +45,8 @@
 }
 .cordinateLabel {
     -fx-background-color: white;
-    -fx-pref-width: 40;
-    -fx-pref-height: 40;
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
     -fx-content-display: center;
+    -fx-opacity: 0.2;
 }
