@@ -322,41 +322,76 @@ public class GameStageController {
             drawWater(x,y,grid);
         }
     }
-    private void drawBoat2D(Boat boat, GridPane grid) {
-        Color boatColor;
-
-        // Determinar el color según el tipo de barco
+    private Color getBoatColor(Boat boat) {
         switch (boat.getLenght()) {
-            case 4: // Portaaviones
-                boatColor = Color.DARKBLUE;
-                break;
-            case 3: // Submarino
-                boatColor = Color.GREEN;
-                break;
-            case 2: // Destructor
-                boatColor = Color.BROWN;
-                break;
-            case 1: // Fragata
-                boatColor = Color.YELLOW;
-                break;
-            default:
-                boatColor = Color.GRAY; // Color por defecto
-        }
-
-        // Dibujar cada segmento del barco
-        for (int i = 0; i < boat.getLenght(); i++) {
-            Rectangle shipSegment = new Rectangle(18, 18); // Tamaño de cada segmento
-            shipSegment.setFill(boatColor); // Color del barco
-            shipSegment.setStroke(Color.BLACK); // Borde para visibilidad
-
-            // Calcular la posición de cada segmento
-            int x = boat.getPlacementX() + (boat.isVertical() ? 0 : i);
-            int y = boat.getPlacementY() + (boat.isVertical() ? i : 0);
-
-            // Agregar el segmento al GridPane
-            grid.add(shipSegment, x + 1, y + 1);
+            case 4: return Color.DARKBLUE; // Portaaviones
+            case 3: return Color.GREEN; // Submarino
+            case 2: return Color.BROWN; // Destructor
+            case 1: return Color.YELLOW; // Fragata
+            default: return Color.GRAY; // Color genérico
         }
     }
+
+    private void drawBoat2D(Boat boat, GridPane grid) {
+        // Determinar orientación
+        boolean isVertical = boat.isVertical();
+        int length = boat.getLenght();
+        int x = boat.getPlacementX();
+        int y = boat.getPlacementY();
+
+        // Crear la figura base del barco (rectángulo alargado)
+        Rectangle body = new Rectangle(
+                isVertical ? 18 : 18 * length,  // Ancho del cuerpo
+                isVertical ? 18 * length : 18  // Alto del cuerpo
+        );
+        body.setFill(getBoatColor(boat)); // Asignar color según el tipo
+        body.setStroke(Color.BLACK); // Borde para visibilidad
+
+        // Proa (frontal del barco)
+        Circle bow = new Circle(9); // Proa redondeada
+        bow.setFill(Color.DARKGRAY); // Color de la proa
+        bow.setStroke(Color.BLACK); // Borde
+
+        // Ajustar la posición de la proa
+        if (isVertical) {
+            grid.add(bow, x + 1, y + 1); // Proa arriba
+        } else {
+            grid.add(bow, x + 1, y + 1); // Proa izquierda
+        }
+
+        // Popa (trasera del barco)
+        Circle stern = new Circle(9); // Popa redondeada
+        stern.setFill(Color.DARKGRAY); // Color de la popa
+        stern.setStroke(Color.BLACK); // Borde
+
+        // Ajustar la posición de la popa
+        if (isVertical) {
+            grid.add(stern, x + 1, y + length); // Popa abajo
+        } else {
+            grid.add(stern, x + length, y + 1); // Popa derecha
+        }
+
+        // Agregar ventanas (opcional, para barcos grandes)
+        if (length >= 3) {
+            for (int i = 1; i < length - 1; i++) {
+                Rectangle window = new Rectangle(6, 6); // Tamaño de la ventana
+                window.setFill(Color.LIGHTBLUE); // Color de la ventana
+                window.setStroke(Color.BLACK); // Borde
+
+                // Posicionar ventanas a lo largo del cuerpo
+                if (isVertical) {
+                    grid.add(window, x + 1, y + 1 + i);
+                } else {
+                    grid.add(window, x + 1 + i, y + 1);
+                }
+            }
+        }
+
+        // Agregar el cuerpo al tablero
+        grid.add(body, x + 1, y + 1, isVertical ? 1 : length, isVertical ? length : 1);
+    }
+
+
     // Dibujar "agua" (disparo fallido)
     private void drawWater(int x, int y, GridPane grid) {
         Circle waterMarker = new Circle(9); // Radio del círculo
