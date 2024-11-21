@@ -274,40 +274,34 @@ public class GameStageController {
         }
     }
     private void drawBoat2D(Boat boat, GridPane grid) {
-        Color boatColor;
-
-        // Determinar el color según el tipo de barco
-        switch (boat.getLenght()) {
-            case 4: // Portaaviones
-                boatColor = Color.DARKBLUE;
-                break;
-            case 3: // Submarino
-                boatColor = Color.GREEN;
-                break;
-            case 2: // Destructor
-                boatColor = Color.BROWN;
-                break;
-            case 1: // Fragata
-                boatColor = Color.YELLOW;
-                break;
-            default:
-                boatColor = Color.GRAY; // Color por defecto
-        }
-
-        // Dibujar cada segmento del barco
         for (int i = 0; i < boat.getLenght(); i++) {
-            Rectangle shipSegment = new Rectangle(18, 18); // Tamaño de cada segmento
-            shipSegment.setFill(boatColor); // Color del barco
-            shipSegment.setStroke(Color.BLACK); // Borde para visibilidad
+            // Crear el segmento del barco
+            Rectangle bodySegment = new Rectangle(18, 18); // Segmento principal del barco
+            bodySegment.setFill(Color.GRAY); // Color del cuerpo
+            bodySegment.setStroke(Color.BLACK); // Borde
 
-            // Calcular la posición de cada segmento
+            // Parte adicional: proa o popa (dependiendo de la posición)
+            Circle bowOrStern = null;
+            if (i == 0 || i == boat.getLenght() - 1) { // Proa o popa
+                bowOrStern = new Circle(9); // Radio para las esquinas redondeadas
+                bowOrStern.setFill(Color.DARKGRAY); // Color más oscuro para contraste
+                bowOrStern.setStroke(Color.BLACK); // Borde
+            }
+
+            // Calcular la posición del segmento
             int x = boat.getPlacementX() + (boat.isVertical() ? 0 : i);
             int y = boat.getPlacementY() + (boat.isVertical() ? i : 0);
 
-            // Agregar el segmento al GridPane
-            grid.add(shipSegment, x + 1, y + 1);
+            // Agregar el segmento al tablero
+            grid.add(bodySegment, x + 1, y + 1);
+
+            // Agregar la proa o popa si corresponde
+            if (bowOrStern != null) {
+                grid.add(bowOrStern, x + 1, y + 1);
+            }
         }
     }
+
     // Dibujar "agua" (disparo fallido)
     private void drawWater(int x, int y, GridPane grid) {
         Circle waterMarker = new Circle(9); // Radio del círculo
