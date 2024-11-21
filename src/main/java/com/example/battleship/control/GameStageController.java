@@ -19,17 +19,13 @@ import java.util.Random;
 public class GameStageController {
 
     BattleShip battleShip = new BattleShip();
-
     Boat selectedBoat;
     AlertHandler alertHandler = new AlertHandler();
     Boolean showingOpponentBoats = false;
+    ArrayList<Boat> playerBoats = new ArrayList<>();
 
     private SerializableFileHandler serializableFileHandler;
-    void setBattleShip(BattleShip battleShip) {
-        if(battleShip != null) {
-            battleShip = battleShip;
-        }
-    }
+
 
     @FXML
     TextField PlaceBoatXCoordenate,PlaceBoatYCoordenate,ShootXCoordenate,ShootYCoordenate;
@@ -64,10 +60,45 @@ public class GameStageController {
 
         createCoordinateLabels(playerBoatsGrid);
         createCoordinateLabels(machineBoard);
+
         battleShip.placeBoatsMachine();
-        battleShip.getMachine().getBoard().printBoard();
     }
 
+
+
+    public void setPlayers (Player player, Player machine) {
+        battleShip.setPlayer(player);
+        battleShip.setMachine(machine);
+    }
+
+    public void showBoats() {
+        playerBoats =battleShip.getPlayer().getBoard().getAllBoats();
+        for (Boat boat : playerBoats) {
+            if (boat.getPlacementX()>=0 && boat.getPlacementY()>=0){
+                drawBoat(boat,playerBoatsGrid);
+            }
+        }
+    }
+
+    public void showHits() {
+        int[][] machine= battleShip.getMachine().getBoard().getBoard();
+        int[][] player= battleShip.getPlayer().getBoard().getBoard();
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (machine[i][j]==2){
+                    drawShoot(true,machineBoard,j,i);
+                }  else if (machine[i][j]==3){
+                    drawShoot(false,machineBoard,j,i);
+                }
+
+                if (player[i][j]==2){
+                    drawShoot(true,playerBoatsGrid,j,i);
+                }  else if (player[i][j]==3){
+                    drawShoot(false,playerBoatsGrid,j,i);
+                }
+            }
+        }
+    }
 
     private TextField createCoordinatesTxtf() {
         TextField coordinatesTxt = new TextField();
@@ -104,10 +135,30 @@ public class GameStageController {
         }
     }
 
+    boolean allBoatsPlaces(){
+        int [][] tableroJugador = battleShip.getPlayer().getBoard().getBoard();
+        int count =0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(tableroJugador[i][j]==1) {
+                    count++;
+                }
+            }
+        }
+
+        if (count==20) {
+            serialize();
+            return true;
+        }
+        return false;
+    }
+
     @FXML
     void ShootButton(ActionEvent event) throws InterruptedException {
         Random random = new Random();
-        if (ShootXCoordenate.getText().isEmpty()==false && ShootYCoordenate.getText().isEmpty()==false) {
+
+
+        if (ShootXCoordenate.getText().isEmpty()==false && ShootYCoordenate.getText().isEmpty()==false && allBoatsPlaces()==true) {
             int x,y;
             String aux;
             aux= ShootXCoordenate.getText();
@@ -115,14 +166,16 @@ public class GameStageController {
             aux= ShootYCoordenate.getText();
             y= Integer.parseInt(aux);
             boolean machineBoatHit= battleShip.shoot(x-1,y-1,battleShip.getMachine());
-            drawShoot(machineBoatHit,machineBoard,x,y);
+            drawShoot(machineBoatHit,machineBoard,x-1,y-1);
 
             if (battleShip.gameOver(battleShip.getMachine())==false) {
                 waitFor(Duration.seconds(1), () ->{
                     int w = random.nextInt(9);
                     int z = random.nextInt(9);
-                    boolean playerBoatHit= battleShip.shoot(w,z,battleShip.getPlayer());
-                    drawShoot(playerBoatHit,playerBoatsGrid,w,z);
+                    boolean playerBoatHit= battleShip.shoot(w+1,z+1,battleShip.getPlayer());
+                    drawShoot(playerBoatHit,playerBoatsGrid,w+1,z+1);
+                    battleShip.getMachine().getBoard().printBoard();
+                    serialize();
                 });
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -224,9 +277,10 @@ public class GameStageController {
                 responseFromFunction = battleShip.placeBoat(selectedBoat.isVertical(),x,y,selectedBoat.getLenght(),selectedBoat);
                 switch (responseFromFunction){
                     case 0:
-                        serializableFileHandler.serialize(battleShip.getPlayer().getNickname(),battleShip);
                         drawBoat(selectedBoat,playerBoatsGrid);
                         selectedBoat=null;
+                        battleShip.getPlayer().getBoard().printBoard();
+                        serialize();
                         break;
                     case 1:
                         alertHandler.coordenadasInvalidasOutOfBounds();
@@ -258,31 +312,14 @@ public class GameStageController {
 
     private void drawBoat(Boat boat, GridPane grid) {
         // Crear un nodo gráfico para el barco
-        for (int i = 0; i < boat.getLenght(); i++) {
-            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
-            cell.setFill(Color.GRAY); // Color del barco
-            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
-
-            // Calcular la posición del segmento del barco
-            int x = boat.getPlacementX() + (boat.isVertical() ? 1 : i+1);
-            int y = boat.getPlacementY() + (boat.isVertical() ? i+1 : 1);
-
-            // Añadir el nodo al GridPane
-            grid.add(cell, x, y);
-        }
+       drawBoat2D(boat,grid);
     }
 
     private void drawShoot(boolean hit,GridPane grid, int x, int y) {
         if (hit==true) {
-            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
-            cell.setFill(Color.RED); // Color del barco
-            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
-            grid.add(cell, x, y);
+            drawHit(x,y,grid);
         } else {
-            Rectangle cell = new Rectangle(18, 18); // Tamaño de cada celda
-            cell.setFill(Color.BLUE); // Color del barco
-            cell.setStroke(Color.BLACK); // Borde para mejor visibilidad
-            grid.add(cell, x, y);
+            drawWater(x,y,grid);
         }
     }
     private void drawBoat2D(Boat boat, GridPane grid) {
@@ -352,6 +389,10 @@ public class GameStageController {
         }
     }
 
+    private void serialize() {
+        serializableFileHandler.serialize(battleShip.getPlayer().getNickname(),battleShip.getPlayer());
+        serializableFileHandler.serialize(battleShip.getPlayer().getNickname()+"Machine",battleShip.getMachine());
+    }
 
 
 }

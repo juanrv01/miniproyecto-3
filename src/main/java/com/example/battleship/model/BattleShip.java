@@ -23,6 +23,14 @@ public class BattleShip implements Serializable {
         return player;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setMachine(Player machine) {
+        this.machine = machine;
+    }
+
     public boolean shoot(int positionX, int positionY,Player defaultPlayer) {
         return defaultPlayer.getBoard().markShoots(positionX, positionY);
     }
