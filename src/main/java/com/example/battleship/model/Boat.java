@@ -9,6 +9,8 @@ public class Boat implements Serializable{
     public Boat(int lenght) {
         this.lenght = lenght;
         this.vertical = true;
+        this.placementX = -1;
+        this.placementY = -1;
     }
 
 
