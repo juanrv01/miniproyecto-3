@@ -65,14 +65,12 @@ public class BattleShip implements Serializable {
                 y = random.nextInt(10);
                 l = boat.getLenght();
                 sense = random.nextBoolean();
-                System.out.println("x:"+x+" y:"+y);
                 firstCon =machine.getBoard().checkBoardSpace(sense,x,y,l);
                 secondCon = machine.getBoard().checkCoordinates(sense,x,y,l);
             } while (firstCon==false || secondCon == false);
             boat.setPlacementX(x,y);
             boat.setValueVertical(sense);
             machine.getBoard().markOcuppiedSpaces(boat);
-            System.out.println("boat placed ");
         }
     }
 

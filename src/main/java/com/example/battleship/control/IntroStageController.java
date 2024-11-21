@@ -78,6 +78,7 @@ public class IntroStageController {
                     gameStage.getGameController().setPlayers(playerGame, machineGame);
                     gameStage.getGameController().showBoats();
                     gameStage.getGameController().showHits();
+                    gameStage.getGameController().setAmountBoatsLabels();
                     IntroStageView.deleteInstance();
                 } else {
                     System.out.println("No se pudo acceder a GameStageView, GameController o BattleShip.");

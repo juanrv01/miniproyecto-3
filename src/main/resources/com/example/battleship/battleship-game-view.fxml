@@ -23,7 +23,7 @@
    <children>
       <HBox id="oceanWoodTable" prefHeight="100.0" prefWidth="718.0" GridPane.columnSpan="2">
          <children>
-            <GridPane fx:id="machineBoard" alignment="CENTER" gridLinesVisible="true" prefHeight="461.0" prefWidth="407.0">
+            <GridPane fx:id="machineBoard" alignment="CENTER" gridLinesVisible="true" maxHeight="455.0" prefHeight="461.0" prefWidth="420.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -50,6 +50,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
+               <children>
+                  <Label style="-fx-background-color: white; -fx-pref-width: 40; -fx-pref-height: 40;" text="  Y\X" />
+               </children>
             </GridPane>
             <VBox id="rightTopContainer" alignment="CENTER" prefHeight="461.0" prefWidth="264.0">
                <children>
@@ -66,9 +69,9 @@
                            </font></Button>
                      </children>
                   </VBox>
-                  <HBox id="woodTable" fx:id="ShootContainerHBox" alignment="CENTER" prefHeight="165.0" prefWidth="264.0">
+                  <HBox id="woodTable" fx:id="ShootContainerHBox" alignment="CENTER" prefHeight="165.0" prefWidth="264.0" style="-fx-spacing: 5;">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#ShootButton" style="-fx-background-color: #000000; -fx-border-color: white;" text="Button" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#ShootButton" style="-fx-background-color: #000000; -fx-border-color: white; -fx-min-width: 80; -fx-min-height: 80;" text="Disparar" textFill="WHITE">
                            <font>
                               <Font name="Courier New Bold" size="12.0" />
                            </font></Button>
@@ -80,7 +83,7 @@
       </HBox>
       <HBox id="oceanBackgrounsHolder" maxHeight="490.0" prefHeight="500.0" prefWidth="810.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <children>
-            <GridPane fx:id="playerBoatsGrid" alignment="CENTER" gridLinesVisible="true" HBox.hgrow="NEVER">
+            <GridPane fx:id="playerBoatsGrid" alignment="CENTER" gridLinesVisible="true" minWidth="420.0" prefWidth="420.0" HBox.hgrow="NEVER">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -107,14 +110,17 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
+               <children>
+                  <Label style="-fx-background-color: white; -fx-pref-width: 40; -fx-pref-height: 40;" text="  Y\X" />
+               </children>
             </GridPane>
             <VBox id="tableBoats" minWidth="278.0" prefHeight="376.0" prefWidth="292.0">
                <children>
-                  <VBox maxWidth="215.0" prefHeight="320.0" prefWidth="215.0">
+                  <VBox maxWidth="215.0" prefHeight="320.0" prefWidth="215.0" style="-fx-spacing: 5;">
                      <children>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectPortaAviones" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                              <Button mnemonicParsing="false" onAction="#selectPortaAviones" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ada9a7; -fx-border-color: black;" text="PortaAviones">
                                  <font>
                                     <Font name="Courier New Bold" size="15.0" />
                                  </font></Button>
@@ -126,7 +132,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectSubmarino" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                              <Button mnemonicParsing="false" onAction="#selectSubmarino" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ada9a7; -fx-border-color: black;" text="Submarino">
                                  <font>
                                     <Font name="Courier New Bold" size="15.0" />
                                  </font></Button>
@@ -138,7 +144,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectDestructor" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                              <Button mnemonicParsing="false" onAction="#selectDestructor" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ada9a7; -fx-border-color: black;" text="Destructor">
                                  <font>
                                     <Font name="Courier New Bold" size="15.0" />
                                  </font></Button>
@@ -150,7 +156,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="212.0" prefHeight="64.0" prefWidth="212.0" styleClass="BoatHolder">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#selectFragata" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ff9b62; -fx-border-color: #f0a300;" text="Button">
+                              <Button mnemonicParsing="false" onAction="#selectFragata" prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: #ada9a7; -fx-border-color: black;" text="Fragata">
                                  <font>
                                     <Font name="Courier New Bold" size="15.0" />
                                  </font></Button>
@@ -162,17 +168,17 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <HBox fx:id="coordinatePlaceHbox" prefHeight="100.0" prefWidth="200.0">
+                  <HBox fx:id="coordinatePlaceHbox" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 3;">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#setVertical" style="-fx-background-color: #ff9b62;" text="V">
+                        <Button mnemonicParsing="false" onAction="#setVertical" styleClass="buttonTT" text="V">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font></Button>
-                        <Button mnemonicParsing="false" onAction="#setHorizontal" style="-fx-background-color: #ff9b62;" text="H">
+                        <Button mnemonicParsing="false" onAction="#setHorizontal" styleClass="buttonTT" text="H">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font></Button>
-                        <Button mnemonicParsing="false" onAction="#placeButton" style="-fx-background-color: #ff9b62;" text="Place">
+                        <Button mnemonicParsing="false" onAction="#placeButton" styleClass="buttonTT" text="Poner">
                            <font>
                               <Font name="Courier New Bold" size="13.0" />
                            </font></Button>

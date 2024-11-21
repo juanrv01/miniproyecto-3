@@ -43,9 +43,22 @@
     -fx-spacing: 30px;
 
 }
+
 .cordinateLabel {
-    -fx-background-color: white;
-    -fx-pref-width: 40;
-    -fx-pref-height: 40;
+    -fx-background-color: grey;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
     -fx-content-display: center;
+}
+
+.BoatHolder {
+    -fx-spacing: 10;
+}
+
+.buttonTT {
+    -fx-background-color:  #ff9b62;
+    -fx-border-color: black;
+    -fx-pref-height: 25;
 }
