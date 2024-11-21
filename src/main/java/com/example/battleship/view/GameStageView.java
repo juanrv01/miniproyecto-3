@@ -36,4 +36,9 @@ public class GameStageView extends Stage {
         GameStageView.GameStageViewHolder.INSTANCE = GameStageView.GameStageViewHolder.INSTANCE != null ? GameStageView.GameStageViewHolder.INSTANCE : new GameStageView();
         return GameStageView.GameStageViewHolder.INSTANCE;
     }
+
+    public static void  deleteInstance() {
+        GameStageView.GameStageViewHolder.INSTANCE.close();
+    }
+
 }

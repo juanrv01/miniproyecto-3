@@ -1,6 +1,7 @@
 package com.example.battleship.control;
 
 import com.example.battleship.model.*;
+import com.example.battleship.view.GameStageView;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,9 +46,13 @@ public class GameStageController {
         serializableFileHandler = new SerializableFileHandler();
         setAmountBoatsLabels();
         PlaceBoatXCoordenate = createCoordinatesTxtf();
+        PlaceBoatXCoordenate.setPromptText("X");
         PlaceBoatYCoordenate= createCoordinatesTxtf();
+        PlaceBoatYCoordenate.setPromptText("Y");
         ShootXCoordenate= createCoordinatesTxtf();
+        ShootXCoordenate.setPromptText("X");
         ShootYCoordenate= createCoordinatesTxtf();
+        ShootYCoordenate.setPromptText("Y");
 
         coordinatePlaceHbox.getChildren().add(0,PlaceBoatXCoordenate);
         coordinatePlaceHbox.getChildren().add(1,PlaceBoatYCoordenate);// Añadir al layout
@@ -124,13 +129,13 @@ public class GameStageController {
 
     void createCoordinateLabels(GridPane grid) {
         for (int j = 0; j < 10; j++) {
-            Label label = new Label(String.valueOf(j+1));
+            Label label = new Label("  "+String.valueOf(j+1));
             label.getStyleClass().add("cordinateLabel");
             grid.add(label,0,j+1);
         }
 
         for (int j = 0; j < 10; j++) {
-            Label label = new Label(String.valueOf(j+1));
+            Label label = new Label("  "+String.valueOf(j+1));
             label.getStyleClass().add("cordinateLabel");
             grid.add(label,j+1,0);
         }
@@ -176,7 +181,7 @@ public class GameStageController {
                 alert.setHeaderText(null);
                 alert.setContentText("Game Over");
                 alert.showAndWait();
-
+                GameStageView.deleteInstance();
             }
 
         }
@@ -337,51 +342,11 @@ public class GameStageController {
 
         // Crear la figura base del barco (rectángulo alargado)
         Rectangle body = new Rectangle(
-                isVertical ? 18 : 18 * length,  // Ancho del cuerpo
-                isVertical ? 18 * length : 18  // Alto del cuerpo
+                isVertical ? 30 : 35 * length,  // Ancho del cuerpo
+                isVertical ? 35 * length : 30  // Alto del cuerpo
         );
         body.setFill(getBoatColor(boat)); // Asignar color según el tipo
         body.setStroke(Color.BLACK); // Borde para visibilidad
-
-        // Proa (frontal del barco)
-        Circle bow = new Circle(9); // Proa redondeada
-        bow.setFill(Color.DARKGRAY); // Color de la proa
-        bow.setStroke(Color.BLACK); // Borde
-
-        // Ajustar la posición de la proa
-        if (isVertical) {
-            grid.add(bow, x + 1, y + 1); // Proa arriba
-        } else {
-            grid.add(bow, x + 1, y + 1); // Proa izquierda
-        }
-
-        // Popa (trasera del barco)
-        Circle stern = new Circle(9); // Popa redondeada
-        stern.setFill(Color.DARKGRAY); // Color de la popa
-        stern.setStroke(Color.BLACK); // Borde
-
-        // Ajustar la posición de la popa
-        if (isVertical) {
-            grid.add(stern, x + 1, y + length); // Popa abajo
-        } else {
-            grid.add(stern, x + length, y + 1); // Popa derecha
-        }
-
-        // Agregar ventanas (opcional, para barcos grandes)
-        if (length >= 3) {
-            for (int i = 1; i < length - 1; i++) {
-                Rectangle window = new Rectangle(6, 6); // Tamaño de la ventana
-                window.setFill(Color.LIGHTBLUE); // Color de la ventana
-                window.setStroke(Color.BLACK); // Borde
-
-                // Posicionar ventanas a lo largo del cuerpo
-                if (isVertical) {
-                    grid.add(window, x + 1, y + 1 + i);
-                } else {
-                    grid.add(window, x + 1 + i, y + 1);
-                }
-            }
-        }
 
         // Agregar el cuerpo al tablero
         grid.add(body, x + 1, y + 1, isVertical ? 1 : length, isVertical ? length : 1);
@@ -429,22 +394,6 @@ public class GameStageController {
         grid.add(flame, x + 1, y + 1);
     }
 
-
-    // Dibujar "hundido" (barco completamente destruido)
-    private void drawSunk(Boat boat, GridPane grid) {
-        for (int i = 0; i < boat.getLenght(); i++) {
-            Rectangle sunkSegment = new Rectangle(18, 18); // Tamaño del segmento
-            sunkSegment.setFill(Color.RED); // Color rojo para barco hundido
-            sunkSegment.setStroke(Color.BLACK); // Borde para visibilidad
-
-            // Calcular la posición de cada segmento
-            int x = boat.getPlacementX() + (boat.isVertical() ? 0 : i);
-            int y = boat.getPlacementY() + (boat.isVertical() ? i : 0);
-
-            // Agregar al tablero
-            grid.add(sunkSegment, x + 1, y + 1);
-        }
-    }
 
     private void serialize() {
         serializableFileHandler.serialize(battleShip.getPlayer().getNickname(),battleShip.getPlayer());
