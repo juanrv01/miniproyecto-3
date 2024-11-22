@@ -63,6 +63,7 @@ public class GameStageController {
         createCoordinateLabels(machineBoard);
 
         battleShip.placeBoatsMachine();
+        alertHandler.instrucciones();
     }
 
     public void setAmountBoatsLabels() {
@@ -342,8 +343,8 @@ public class GameStageController {
 
         // Crear la figura base del barco (rectángulo alargado)
         Rectangle body = new Rectangle(
-                isVertical ? 30 : 35 * length,  // Ancho del cuerpo
-                isVertical ? 35 * length : 30  // Alto del cuerpo
+                isVertical ? 25 : 25 * length,  // Ancho del cuerpo
+                isVertical ? 25 * length : 25  // Alto del cuerpo
         );
         body.setFill(getBoatColor(boat)); // Asignar color según el tipo
         body.setStroke(Color.BLACK); // Borde para visibilidad
